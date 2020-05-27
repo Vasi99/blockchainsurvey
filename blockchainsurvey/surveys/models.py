@@ -16,8 +16,7 @@ class Surveys(models.Model):
     @property
     def no_of_responses(self):
         """No of responses recorded for the survey."""
-        all_questions = self.questions.all()
-        question_1 = all_questions[0]
+        question_1 = self.questions.get(question_number=1)
         return question_1.responses.count()
 
     @property

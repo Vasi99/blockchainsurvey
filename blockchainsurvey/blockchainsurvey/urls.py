@@ -15,8 +15,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+doc_schema = get_schema_view(
+    openapi.Info(
+        title="Blockchain Surveys APIs",
+        default_version="v1",
+        description="REST API documentation.",
+        license=openapi.License(name="MIT License"),
+    ),
+    public=True,
+)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("surveys/", include("surveys.urls"))
+    path("surveys/", include("surveys.urls")),
+    path("swagger/", doc_schema.with_ui("swagger", cache_timeout=0), name="swagger_ui"),
+    path("redoc/", doc_schema.with_ui("redoc", cache_timeout=0), name="redoc_ui")
 ]
